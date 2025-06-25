@@ -1,0 +1,278 @@
+/* Import Font dari Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
+
+/* Variabel Warna & Reset Dasar */
+:root {
+  --bg-color: #0a0a0a;
+  --text-color: #e0e0e0;
+  --primary-color: #00ffff; /* Cyan */
+  --card-bg: #111111;
+  --border-color: #222;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  cursor: none; /* Sembunyikan kursor asli */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+/* Kursor Kustom */
+.cursor {
+  width: 25px;
+  height: 25px;
+  border: 1px solid var(--primary-color);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease, background-color 0.2s ease;
+  z-index: 9999;
+}
+
+a:hover ~ .cursor, .cta-button:hover ~ .cursor {
+  transform: scale(2.5) translate(-20%, -20%);
+  background-color: rgba(0, 255, 255, 0.1);
+}
+
+/* Layout Utama */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  text-shadow: 0 0 10px var(--primary-color);
+}
+
+/* Header & Navigasi */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+header .logo a {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+header nav a {
+  margin-left: 1.5rem;
+  font-size: 1rem;
+}
+
+/* Section Umum */
+.section {
+  padding: 6rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #fff;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+}
+
+/* Hero Section */
+.hero {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.hero h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+/* Tombol Call-to-Action */
+.cta-button {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+  color: var(--primary-color);
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: var(--primary-color);
+  color: var(--bg-color);
+  text-shadow: none;
+}
+
+/* Proyek */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.project-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  border-radius: 5px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* GANTI KODE LAMA .project-card:hover DENGAN INI */
+.project-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+}
+
+.project-image {
+  width: 100%;
+  height: 180px;
+  margin-bottom: 1rem;
+  border-radius: 3px;
+}
+
+.project-card h3 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem 0;
+  font-size: 0.9rem;
+}
+
+/* Animasi Fade-in (CSS Part) */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Aturan untuk Mobile */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  .section h2 {
+    font-size: 2rem;
+  }
+  header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+/* CSS untuk Fitur Expand/Collapse Proyek */
+
+.project-details-hidden {
+  /* Sembunyikan secara default dengan trik max-height */
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/* Saat kartu memiliki class .expanded, tampilkan detailnya */
+.project-card.expanded .project-details-hidden {
+  /* Atur max-height ke angka yang cukup besar untuk kontennya */
+  max-height: 500px; 
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.project-details-hidden h4 {
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.project-details-hidden ul {
+  list-style-position: inside;
+  padding-left: 0.5rem;
+  margin-bottom: 1rem;
+}
+/* CSS untuk Efek Blob Latar Belakang */
+#blob {
+  background: linear-gradient(
+    to right,
+    var(--primary-color),
+    #ff4757
+  );
+  height: 300px;
+  width: 300px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  animation: rotate 20s infinite;
+  opacity: 0.3;
+  filter: blur(100px); /* Ini adalah kunci efeknya */
+  z-index: -1; /* Pastikan berada di belakang semua konten */
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg) translate(-50%, -50%);
+  }
+  to {
+    transform: rotate(360deg) translate(-50%, -50%);
+  }
+}
+/* CSS untuk Link Sosial Media */
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.social-links a {
+  font-size: 1.8rem; /* Ukuran ikon */
+  color: var(--text-color);
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-links a:hover {
+  color: var(--primary-color);
+  transform: translateY(-5px);
+  text-shadow: 0 0 10px var(--primary-color);
+}
