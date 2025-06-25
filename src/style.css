@@ -276,3 +276,51 @@ footer {
   transform: translateY(-5px);
   text-shadow: 0 0 10px var(--primary-color);
 }
+/* ======================================================= */
+/* TAMBAHKAN KODE INI DI BAGIAN BAWAH STYLE.CSS            */
+/* ======================================================= */
+
+/* --- Gaya untuk Foto Profil --- */
+.about-content {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover; /* Memastikan foto pas dan tidak gepeng */
+  border: 3px solid var(--primary-color);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+}
+
+.about-content p {
+  flex-grow: 1; /* Membuat teks mengisi sisa ruang */
+}
+
+
+/* --- Gaya untuk Gambar Proyek --- */
+.project-image {
+  /* Gaya yang sudah ada sebelumnya sudah cukup, tapi kita pastikan lagi */
+  width: 100%;
+  height: 180px;
+  margin-bottom: 1rem;
+  border-radius: 3px;
+  object-fit: cover; /* Ini yang paling penting */
+  border: 1px solid var(--border-color);
+}
+
+
+/* --- Perbaikan untuk Tampilan Mobile --- */
+@media (max-width: 768px) {
+  .about-content {
+    flex-direction: column; /* Tata letak jadi ke bawah */
+    text-align: center;
+  }
+
+  .profile-image {
+    margin-bottom: 1.5rem;
+  }
+}
