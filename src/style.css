@@ -41,7 +41,7 @@ body {
   z-index: 9999;
 }
 
-a:hover ~ .cursor, .cta-button:hover ~ .cursor {
+a:hover ~ .cursor, .cta-button:hover ~ .cursor, .details-button:hover ~ .cursor {
   transform: scale(2.5) translate(-20%, -20%);
   background-color: rgba(0, 255, 255, 0.1);
 }
@@ -147,9 +147,10 @@ header nav a {
   padding: 1.5rem;
   border-radius: 5px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
-/* GANTI KODE LAMA .project-card:hover DENGAN INI */
 .project-card:hover {
   transform: translateY(-5px);
   border-color: var(--primary-color);
@@ -161,12 +162,19 @@ header nav a {
   height: 180px;
   margin-bottom: 1rem;
   border-radius: 3px;
+  object-fit: cover;
 }
 
 .project-card h3 {
   color: #fff;
   margin-bottom: 0.5rem;
 }
+
+.project-card .details-button {
+    margin-top: auto;
+    align-self: flex-start;
+}
+
 
 /* Footer */
 footer {
@@ -187,48 +195,6 @@ footer {
   transform: translateY(0);
 }
 
-/* Aturan untuk Mobile */
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2.5rem;
-  }
-  .section h2 {
-    font-size: 2rem;
-  }
-  header {
-    flex-direction: column;
-    gap: 1rem;
-  }
-}
-/* CSS untuk Fitur Expand/Collapse Proyek */
-
-.project-details-hidden {
-  /* Sembunyikan secara default dengan trik max-height */
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.5s ease-out, padding 0.5s ease-out;
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
-/* Saat kartu memiliki class .expanded, tampilkan detailnya */
-.project-card.expanded .project-details-hidden {
-  /* Atur max-height ke angka yang cukup besar untuk kontennya */
-  max-height: 500px; 
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-
-.project-details-hidden h4 {
-  margin-bottom: 0.5rem;
-  color: #fff;
-}
-
-.project-details-hidden ul {
-  list-style-position: inside;
-  padding-left: 0.5rem;
-  margin-bottom: 1rem;
-}
 /* CSS untuk Efek Blob Latar Belakang */
 #blob {
   background: linear-gradient(
@@ -245,18 +211,15 @@ footer {
   border-radius: 50%;
   animation: rotate 20s infinite;
   opacity: 0.3;
-  filter: blur(100px); /* Ini adalah kunci efeknya */
-  z-index: -1; /* Pastikan berada di belakang semua konten */
+  filter: blur(100px);
+  z-index: -1;
 }
 
 @keyframes rotate {
-  from {
-    transform: rotate(0deg) translate(-50%, -50%);
-  }
-  to {
-    transform: rotate(360deg) translate(-50%, -50%);
-  }
+  from { transform: rotate(0deg) translate(-50%, -50%); }
+  to { transform: rotate(360deg) translate(-50%, -50%); }
 }
+
 /* CSS untuk Link Sosial Media */
 .social-links {
   display: flex;
@@ -266,7 +229,7 @@ footer {
 }
 
 .social-links a {
-  font-size: 1.8rem; /* Ukuran ikon */
+  font-size: 1.8rem;
   color: var(--text-color);
   transition: transform 0.3s ease, color 0.3s ease;
 }
@@ -276,9 +239,6 @@ footer {
   transform: translateY(-5px);
   text-shadow: 0 0 10px var(--primary-color);
 }
-/* ======================================================= */
-/* TAMBAHKAN KODE INI DI BAGIAN BAWAH STYLE.CSS            */
-/* ======================================================= */
 
 /* --- Gaya untuk Foto Profil --- */
 .about-content {
@@ -291,32 +251,185 @@ footer {
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  object-fit: cover; /* Memastikan foto pas dan tidak gepeng */
+  object-fit: cover;
   border: 3px solid var(--primary-color);
   box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
 }
 
 .about-content p {
-  flex-grow: 1; /* Membuat teks mengisi sisa ruang */
+  flex-grow: 1;
 }
 
+/* ======================================================= */
+/* GAYA UNTUK MODAL POP-UP & ANIMASI BARU                  */
+/* ======================================================= */
 
-/* --- Gaya untuk Gambar Proyek --- */
-.project-image {
-  /* Gaya yang sudah ada sebelumnya sudah cukup, tapi kita pastikan lagi */
+/* Lapisan latar belakang gelap */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 180px;
-  margin-bottom: 1rem;
-  border-radius: 3px;
-  object-fit: cover; /* Ini yang paling penting */
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  
+  /* Sembunyikan secara default */
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 0.3s, opacity 0.3s ease;
+}
+
+.modal-overlay.visible {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.3s ease;
+}
+
+/* Konten utama modal */
+.modal-content {
+  background-color: var(--card-bg);
+  padding: 30px 40px;
+  border-radius: 8px;
   border: 1px solid var(--border-color);
+  width: 100%;
+  max-width: 1100px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.modal-overlay.visible .modal-content {
+  transform: scale(1);
+}
+
+/* Tombol close (X) */
+.modal-close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 2.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.modal-close-btn:hover {
+    color: var(--primary-color);
+    transform: rotate(90deg);
+}
+
+/* Layout body modal */
+.modal-body {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+/* Galeri gambar di dalam modal */
+.modal-gallery {
+  flex: 2;
+  display: flex;
+  flex-direction: column; /* Tata letak vertikal */
+  align-items: center; /* Pusatkan gambar secara horizontal */
+  gap: 20px;
+}
+
+.modal-gallery img {
+  width: 90%; /* Lebar gambar */
+  max-width: 600px; /* Batasi lebar maksimum */
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  object-fit: cover;
+  
+  /* Pengaturan awal untuk animasi */
+  opacity: 0;
+  transform: translateX(-100px); /* Mulai dari kiri */
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Gambar genap akan mulai dari kanan */
+.modal-gallery img:nth-child(even) {
+  transform: translateX(100px); 
+}
+
+/* Saat kelas .animated ditambahkan oleh JS, gambar akan masuk */
+.modal-gallery img.animated {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 
-/* --- Perbaikan untuk Tampilan Mobile --- */
+/* Detail teks di dalam modal */
+.modal-details {
+  flex: 1;
+}
+
+.modal-details h2 {
+  margin-top: 0;
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+  font-size: 2.2rem;
+}
+
+.modal-details h4 {
+    color: #fff;
+    border-bottom: 1px solid var(--primary-color);
+    padding-bottom: 5px;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Pengaturan awal untuk animasi teks */
+.modal-details > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* Saat kelas .animated ditambahkan, teks akan muncul */
+.modal-details > *.animated {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* Aturan untuk Mobile */
+@media (max-width: 900px) {
+  .modal-body {
+    flex-direction: column;
+  }
+  .modal-content {
+    padding: 20px;
+  }
+  .modal-details h2 {
+      font-size: 1.8rem;
+  }
+}
+
 @media (max-width: 768px) {
-  .about-content {
-    flex-direction: column; /* Tata letak jadi ke bawah */
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  .section h2 {
+    font-size: 2rem;
+  }
+  header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+   .about-content {
+    flex-direction: column;
     text-align: center;
   }
 
