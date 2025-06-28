@@ -52,7 +52,7 @@ async function fetchAndRenderProjects() {
                         <img src="${thumbnailUrl}" alt="${project.title}" class="project-image">
                         <h3>${project.title}</h3>
                         <p>${project.short_description}</p>
-                        <a href="#" class="details-button">Lihat Detail &rarr;</a>
+                        <a href="#" class="details-button">Details &rarr;</a>
                     </div>
                 `;
             }).join('');
