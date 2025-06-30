@@ -3,7 +3,7 @@
 import './style.css';
 
 // --- PENGATURAN AWAL & VARIABEL GLOBAL ---
-const API_URL = 'http://michaeljo-api.ct.ws/portfolio-dinamis/api/get_projects.php'; 
+const API_URL = 'https://michaeljo-api.ct.ws/portfolio-dinamis/api/get_projects.php'; 
 let allProjectsData = []; // Variabel untuk menyimpan data proyek secara global
 
 // --- FUNGSI UTAMA ---
