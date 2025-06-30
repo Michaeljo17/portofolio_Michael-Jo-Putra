@@ -4,7 +4,7 @@ import './style.css';
 
 // --- PENGATURAN AWAL & VARIABEL GLOBAL ---
 // BENAR: Ini menyuruh kode Anda bicara ke "calo" Netlify
-const API_URL = '/api/get_projects.php';
+const API_URL = 'http://michaeljo-api.ct.ws/portofolio-dinamis/api/get_projects.php';
 let allProjectsData = []; // Variabel untuk menyimpan data proyek secara global
 
 // --- FUNGSI UTAMA ---
