@@ -1,4 +1,4 @@
 [[redirects]]
   from = "/api/*"
-  to = "http://michaeljo-api.ct.ws/portofolio-dinamis/api/:splat"
+  to = "http://michaeljoputra.iceiy.com/portofolio-dinamis/api/:splat"
   status = 200
